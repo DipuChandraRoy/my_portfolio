@@ -16,11 +16,12 @@ class TopNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.sizeOf(context).width;
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
-        horizontal: MediaQuery.sizeOf(context).width < 750 ? 20 : 40,
-        vertical: 18,
+        horizontal: screenWidth < 500 ? 16 : (screenWidth < 750 ? 24 : 40),
+        vertical: screenWidth < 500 ? 14 : 18,
       ),
       decoration: const BoxDecoration(
         color: AppColors.navBarBg,
@@ -58,14 +59,14 @@ class TopNavBar extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 12),
-                    const Flexible(
+                    Flexible(
                       child: Text(
                         'Dipu Chandra Ray',
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: AppColors.white,
                           fontWeight: FontWeight.w600,
-                          fontSize: 18,
+                          fontSize: screenWidth < 400 ? 15 : 18,
                           letterSpacing: 0.5,
                         ),
                       ),

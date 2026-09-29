@@ -38,10 +38,14 @@ class HeroSection extends StatelessWidget {
             ),
           );
         } else {
+          final screenWidth = MediaQuery.sizeOf(context).width;
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+            padding: EdgeInsets.symmetric(
+              horizontal: screenWidth < 500 ? 16 : 24,
+              vertical: screenWidth < 500 ? 30 : 40,
+            ),
             child: Column(
-              children: [imageSide, const SizedBox(height: 40), textSide],
+              children: [imageSide, const SizedBox(height: 36), textSide],
             ),
           );
         }
@@ -104,10 +108,12 @@ class _HeroTextContent extends StatelessWidget {
             textAlign: isWide ? TextAlign.left : TextAlign.center,
             style: TextStyle(
               color: AppColors.accent,
-              fontSize: isWide ? 46 : 36,
+              fontSize: isWide
+                  ? 46
+                  : (MediaQuery.sizeOf(context).width < 400 ? 30 : 36),
               fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-              height: 1.1,
+              letterSpacing: isWide ? 1.2 : 0.8,
+              height: 1.15,
             ),
           ),
         ),
@@ -397,7 +403,10 @@ class _HeroProfileImageState extends State<_HeroProfileImage>
 
   @override
   Widget build(BuildContext context) {
-    final double imageSize = widget.isWide ? 280 : 220;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final double imageSize = widget.isWide
+        ? 280
+        : (screenWidth < 400 ? 180 : 220);
 
     return Center(
       child: AnimatedBuilder(

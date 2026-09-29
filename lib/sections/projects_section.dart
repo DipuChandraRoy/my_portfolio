@@ -41,13 +41,14 @@ class ProjectsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.sizeOf(context).width;
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 80),
+      padding: EdgeInsets.symmetric(vertical: screenWidth < 500 ? 50 : 80),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final isWide = constraints.maxWidth >= 800;
-          final isMedium = constraints.maxWidth >= 550;
+          final isWide = constraints.maxWidth >= 950;
+          final isMedium = constraints.maxWidth >= 600;
 
           int crossAxisCount = 1;
           if (isWide) {
@@ -59,7 +60,9 @@ class ProjectsSection extends StatelessWidget {
           return Center(
             child: Container(
               constraints: const BoxConstraints(maxWidth: 1200),
-              padding: EdgeInsets.symmetric(horizontal: isWide ? 60 : 24),
+              padding: EdgeInsets.symmetric(
+                horizontal: isWide ? 60 : (constraints.maxWidth < 500 ? 16 : 24),
+              ),
               child: Column(
                 children: [
                   const SectionTitle(

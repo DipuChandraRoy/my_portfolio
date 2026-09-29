@@ -23,9 +23,10 @@ class SkillsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.sizeOf(context).width;
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 80),
+      padding: EdgeInsets.symmetric(vertical: screenWidth < 500 ? 50 : 80),
       color: const Color(0xFF0A0A0A),
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -33,7 +34,9 @@ class SkillsSection extends StatelessWidget {
           return Center(
             child: Container(
               constraints: const BoxConstraints(maxWidth: 1200),
-              padding: EdgeInsets.symmetric(horizontal: isWide ? 60 : 24),
+              padding: EdgeInsets.symmetric(
+                horizontal: isWide ? 60 : (constraints.maxWidth < 500 ? 16 : 24),
+              ),
               child: Column(
                 children: [
                   const FadeSlideIn(

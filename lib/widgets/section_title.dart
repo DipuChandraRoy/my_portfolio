@@ -13,47 +13,59 @@ class SectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final isMobile = screenWidth < 600;
+    final isSmall = screenWidth < 380;
+
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              width: 40,
-              height: 3,
-              decoration: BoxDecoration(
-                color: AppColors.accent,
-                borderRadius: BorderRadius.circular(2),
+            if (!isSmall) ...[
+              Container(
+                width: isMobile ? 24 : 40,
+                height: 3,
+                decoration: BoxDecoration(
+                  color: AppColors.accent,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              SizedBox(width: isMobile ? 10 : 16),
+            ],
+            Flexible(
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: AppColors.white,
+                  fontSize: isMobile ? (isSmall ? 22 : 26) : 32,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: isMobile ? 0.6 : 1.0,
+                ),
               ),
             ),
-            const SizedBox(width: 16),
-            Text(
-              title,
-              style: const TextStyle(
-                color: AppColors.white,
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1,
+            if (!isSmall) ...[
+              SizedBox(width: isMobile ? 10 : 16),
+              Container(
+                width: isMobile ? 24 : 40,
+                height: 3,
+                decoration: BoxDecoration(
+                  color: AppColors.accent,
+                  borderRadius: BorderRadius.circular(2),
+                ),
               ),
-            ),
-            const SizedBox(width: 16),
-            Container(
-              width: 40,
-              height: 3,
-              decoration: BoxDecoration(
-                color: AppColors.accent,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
+            ],
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 10),
         Text(
           subtitle,
           textAlign: TextAlign.center,
           style: TextStyle(
             color: AppColors.grey.withValues(alpha: 0.7),
-            fontSize: 15,
+            fontSize: isMobile ? 13 : 15,
             letterSpacing: 0.3,
           ),
         ),

@@ -24,7 +24,9 @@ class AboutSection extends StatelessWidget {
           return Center(
             child: Container(
               constraints: const BoxConstraints(maxWidth: 1200),
-              padding: EdgeInsets.symmetric(horizontal: isWide ? 60 : 24),
+              padding: EdgeInsets.symmetric(
+                horizontal: isWide ? 60 : (constraints.maxWidth < 500 ? 16 : 24),
+              ),
               child: Column(
                 children: [
                   const SectionTitle(
@@ -36,7 +38,7 @@ class AboutSection extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(child: _AboutImage()),
+                        Expanded(child: _AboutImage(isWide: true)),
                         const SizedBox(width: 60),
                         Expanded(child: _AboutDetails()),
                       ],
@@ -44,7 +46,7 @@ class AboutSection extends StatelessWidget {
                   else
                     Column(
                       children: [
-                        _AboutImage(),
+                        _AboutImage(isWide: false),
                         const SizedBox(height: 40),
                         _AboutDetails(),
                       ],
@@ -62,26 +64,40 @@ class AboutSection extends StatelessWidget {
 // ─── About Image Card ────────────────────────────────────────────────────────
 
 class _AboutImage extends StatelessWidget {
+  final bool isWide;
+  const _AboutImage({this.isWide = true});
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 380,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: AppColors.accent.withValues(alpha: 0.2),
-          width: 1,
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final double imgHeight = isWide
+        ? 380
+        : (screenWidth < 500 ? 250 : 330);
+
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(
+          maxHeight: imgHeight,
+          maxWidth: isWide ? double.infinity : 400,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.accent.withValues(alpha: 0.08),
-            blurRadius: 40,
-            spreadRadius: 2,
+        height: imgHeight,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: AppColors.accent.withValues(alpha: 0.2),
+            width: 1,
           ),
-        ],
-        image: const DecorationImage(
-          image: AssetImage('assets/images/profile.jpg'),
-          fit: BoxFit.cover,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.accent.withValues(alpha: 0.08),
+              blurRadius: 40,
+              spreadRadius: 2,
+            ),
+          ],
+          image: const DecorationImage(
+            image: AssetImage('assets/images/profile.jpg'),
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
@@ -176,12 +192,15 @@ class _InfoChip extends StatelessWidget {
         children: [
           Icon(icon, color: AppColors.accent, size: 18),
           const SizedBox(width: 8),
-          Text(
-            label,
-            style: const TextStyle(
-              color: AppColors.white,
-              fontSize: 13,
-              letterSpacing: 0.3,
+          Flexible(
+            child: Text(
+              label,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: AppColors.white,
+                fontSize: 13,
+                letterSpacing: 0.3,
+              ),
             ),
           ),
         ],

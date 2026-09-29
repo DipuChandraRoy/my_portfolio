@@ -37,17 +37,26 @@ class StatsSection extends StatelessWidget {
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final isWide = constraints.maxWidth >= 600;
+          final isWide = constraints.maxWidth >= 750;
+          final isSmall = constraints.maxWidth < 450;
+          final double horizontalPadding = isWide ? 60 : (isSmall ? 16 : 24);
+          final double cardWidth = isWide
+              ? 180
+              : (isSmall
+                  ? ((constraints.maxWidth - (horizontalPadding * 2) - 12) / 2)
+                      .clamp(130.0, 180.0)
+                  : 160);
+
           return Center(
             child: Container(
               constraints: const BoxConstraints(maxWidth: 1200),
-              padding: EdgeInsets.symmetric(horizontal: isWide ? 60 : 24),
+              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
               child: Wrap(
                 alignment: WrapAlignment.center,
-                spacing: 24,
-                runSpacing: 24,
+                spacing: isSmall ? 12 : 24,
+                runSpacing: isSmall ? 12 : 24,
                 children: _stats
-                    .map((s) => _AnimatedStatCard(data: s))
+                    .map((s) => _AnimatedStatCard(data: s, width: cardWidth))
                     .toList(),
               ),
             ),
@@ -75,7 +84,8 @@ class _StatData {
 
 class _AnimatedStatCard extends StatefulWidget {
   final _StatData data;
-  const _AnimatedStatCard({required this.data});
+  final double? width;
+  const _AnimatedStatCard({required this.data, this.width});
 
   @override
   State<_AnimatedStatCard> createState() => _AnimatedStatCardState();
@@ -110,13 +120,19 @@ class _AnimatedStatCardState extends State<_AnimatedStatCard>
 
   @override
   Widget build(BuildContext context) {
+    final effectiveWidth = widget.width ?? 180.0;
+    final isCompact = effectiveWidth < 160;
+
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
-        width: 180,
-        padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 20),
+        width: effectiveWidth,
+        padding: EdgeInsets.symmetric(
+          vertical: isCompact ? 20 : 28,
+          horizontal: isCompact ? 12 : 20,
+        ),
         decoration: BoxDecoration(
           color: _hovered
               ? AppColors.accent.withValues(alpha: 0.12)

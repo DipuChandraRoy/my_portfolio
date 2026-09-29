@@ -59,17 +59,20 @@ class TimelineSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.sizeOf(context).width;
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 80),
+      padding: EdgeInsets.symmetric(vertical: screenWidth < 500 ? 50 : 80),
       decoration: const BoxDecoration(color: Color(0xFF0D0D0D)),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final isWide = constraints.maxWidth >= 800;
+          final isWide = constraints.maxWidth >= 900;
           return Center(
             child: Container(
               constraints: const BoxConstraints(maxWidth: 1200),
-              padding: EdgeInsets.symmetric(horizontal: isWide ? 60 : 24),
+              padding: EdgeInsets.symmetric(
+                horizontal: isWide ? 60 : (constraints.maxWidth < 500 ? 16 : 24),
+              ),
               child: Column(
                 children: [
                   const FadeSlideIn(

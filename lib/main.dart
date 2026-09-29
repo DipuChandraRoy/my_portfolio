@@ -155,8 +155,8 @@ class _PortfolioHomeState extends State<PortfolioHome> {
 
             // ── Scroll-to-Top FAB ──
             Positioned(
-              bottom: 32,
-              right: 32,
+              bottom: MediaQuery.sizeOf(context).width < 500 ? 20 : 32,
+              right: MediaQuery.sizeOf(context).width < 500 ? 20 : 32,
               child: AnimatedOpacity(
                 opacity: _showScrollTop ? 1.0 : 0.0,
                 duration: const Duration(milliseconds: 300),

@@ -12,17 +12,20 @@ class ContactSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.sizeOf(context).width;
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 80),
+      padding: EdgeInsets.symmetric(vertical: screenWidth < 500 ? 50 : 80),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final isWide = constraints.maxWidth >= 800;
+          final isWide = constraints.maxWidth >= 900;
 
           return Center(
             child: Container(
               constraints: const BoxConstraints(maxWidth: 1200),
-              padding: EdgeInsets.symmetric(horizontal: isWide ? 60 : 24),
+              padding: EdgeInsets.symmetric(
+                horizontal: isWide ? 60 : (constraints.maxWidth < 500 ? 16 : 24),
+              ),
               child: Column(
                 children: [
                   const SectionTitle(
@@ -34,9 +37,9 @@ class ContactSection extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(child: _ContactInfo()),
-                        const SizedBox(width: 40),
-                        Expanded(flex: 2, child: _ContactForm()),
+                        Expanded(flex: 2, child: _ContactInfo()),
+                        const SizedBox(width: 48),
+                        Expanded(flex: 3, child: _ContactForm()),
                       ],
                     )
                   else
@@ -417,8 +420,9 @@ class _ContactFormState extends State<_ContactForm> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.sizeOf(context).width < 500;
     return Container(
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.all(isMobile ? 20 : 32),
       decoration: BoxDecoration(
         color: AppColors.cardBg,
         borderRadius: BorderRadius.circular(16),
