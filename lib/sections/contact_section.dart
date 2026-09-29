@@ -62,6 +62,13 @@ class ContactSection extends StatelessWidget {
 // ─── Contact Info Cards ──────────────────────────────────────────────────────
 
 class _ContactInfo extends StatelessWidget {
+  static Future<void> _launch(String urlString) async {
+    final uri = Uri.parse(urlString);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -90,35 +97,41 @@ class _ContactInfo extends StatelessWidget {
         const SizedBox(height: 30),
 
         // ── Contact Cards ──
-        const _ContactCard(
+        _ContactCard(
           icon: Icons.email_rounded,
           title: 'Email',
           value: 'dipuray7779@gmail.com',
+          onTap: () => _launch('mailto:dipuray7779@gmail.com'),
         ),
         const SizedBox(height: 16),
-        const _ContactCard(
+        _ContactCard(
           icon: Icons.phone_rounded,
           title: 'Phone',
           value: '+880 1753-827779',
+          onTap: () => _launch('tel:+8801753827779'),
         ),
         const SizedBox(height: 16),
-        const _ContactCard(
+        _ContactCard(
           icon: Icons.location_on_rounded,
           title: 'Location',
           value: 'Uttara, Dhaka, Bangladesh',
+          onTap: () => _launch(
+            'https://maps.google.com/?q=Uttara,+Dhaka,+Bangladesh',
+          ),
         ),
         const SizedBox(height: 30),
 
         // ── Social Links ──
-        Row(
+        Wrap(
+          spacing: 12,
+          runSpacing: 12,
           children: [
-            _SocialButton(icon: Icons.code_rounded, onTap: () {}),
-            const SizedBox(width: 12),
-            _SocialButton(icon: Icons.link_rounded, onTap: () {}),
-            const SizedBox(width: 12),
-            _SocialButton(icon: Icons.telegram, onTap: () {}),
-            const SizedBox(width: 12),
-            _SocialButton(icon: Icons.facebook_rounded, onTap: () {}),
+            _SocialButton(
+              icon: Icons.code_rounded,
+              label: 'GitHub',
+              tooltip: 'github.com/DipuChandraRoy',
+              onTap: () => _launch('https://github.com/DipuChandraRoy'),
+            ),
           ],
         ),
       ],
@@ -128,64 +141,115 @@ class _ContactInfo extends StatelessWidget {
 
 // ─── Contact Card ────────────────────────────────────────────────────────────
 
-class _ContactCard extends StatelessWidget {
+class _ContactCard extends StatefulWidget {
   final IconData icon;
   final String title;
   final String value;
+  final VoidCallback? onTap;
 
   const _ContactCard({
     required this.icon,
     required this.title,
     required this.value,
+    this.onTap,
   });
 
   @override
+  State<_ContactCard> createState() => _ContactCardState();
+}
+
+class _ContactCardState extends State<_ContactCard> {
+  bool _hovered = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.cardBg,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.divider),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: AppColors.accent.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(10),
+    final isClickable = widget.onTap != null;
+
+    return MouseRegion(
+      cursor: isClickable ? SystemMouseCursors.click : SystemMouseCursors.basic,
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: _hovered && isClickable
+                ? AppColors.cardBg.withValues(alpha: 0.9)
+                : AppColors.cardBg,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: _hovered && isClickable
+                  ? AppColors.accent.withValues(alpha: 0.5)
+                  : AppColors.divider,
             ),
-            child: Icon(icon, color: AppColors.accent, size: 22),
+            boxShadow: _hovered && isClickable
+                ? [
+                    BoxShadow(
+                      color: AppColors.accent.withValues(alpha: 0.1),
+                      blurRadius: 15,
+                      spreadRadius: 1,
+                    ),
+                  ]
+                : [],
           ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: AppColors.grey.withValues(alpha: 0.6),
-                    fontSize: 12,
-                    letterSpacing: 0.3,
-                  ),
+          child: Row(
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: _hovered && isClickable
+                      ? AppColors.accent
+                      : AppColors.accent.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  value,
-                  style: const TextStyle(
-                    color: AppColors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+                child: Icon(
+                  widget.icon,
+                  color:
+                      _hovered && isClickable ? Colors.black : AppColors.accent,
+                  size: 22,
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.title,
+                      style: TextStyle(
+                        color: AppColors.grey.withValues(alpha: 0.6),
+                        fontSize: 12,
+                        letterSpacing: 0.3,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      widget.value,
+                      style: const TextStyle(
+                        color: AppColors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              if (isClickable)
+                Icon(
+                  Icons.arrow_outward_rounded,
+                  size: 16,
+                  color: _hovered
+                      ? AppColors.accent
+                      : AppColors.grey.withValues(alpha: 0.4),
+                ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -195,9 +259,16 @@ class _ContactCard extends StatelessWidget {
 
 class _SocialButton extends StatefulWidget {
   final IconData icon;
+  final String? label;
+  final String? tooltip;
   final VoidCallback onTap;
 
-  const _SocialButton({required this.icon, required this.onTap});
+  const _SocialButton({
+    required this.icon,
+    this.label,
+    this.tooltip,
+    required this.onTap,
+  });
 
   @override
   State<_SocialButton> createState() => _SocialButtonState();
@@ -208,7 +279,7 @@ class _SocialButtonState extends State<_SocialButton> {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
+    Widget button = MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
       cursor: SystemMouseCursors.click,
@@ -216,8 +287,10 @@ class _SocialButtonState extends State<_SocialButton> {
         onTap: widget.onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 250),
-          width: 44,
-          height: 44,
+          padding: EdgeInsets.symmetric(
+            horizontal: widget.label != null ? 16 : 12,
+            vertical: 10,
+          ),
           decoration: BoxDecoration(
             color: _hovered
                 ? AppColors.accent
@@ -229,14 +302,38 @@ class _SocialButtonState extends State<_SocialButton> {
                   : AppColors.accent.withValues(alpha: 0.2),
             ),
           ),
-          child: Icon(
-            widget.icon,
-            color: _hovered ? Colors.black : AppColors.accent,
-            size: 20,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                widget.icon,
+                color: _hovered ? Colors.black : AppColors.accent,
+                size: 20,
+              ),
+              if (widget.label != null) ...[
+                const SizedBox(width: 8),
+                Text(
+                  widget.label!,
+                  style: TextStyle(
+                    color: _hovered ? Colors.black : AppColors.accent,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ],
           ),
         ),
       ),
     );
+
+    if (widget.tooltip != null) {
+      return Tooltip(
+        message: widget.tooltip!,
+        child: button,
+      );
+    }
+    return button;
   }
 }
 

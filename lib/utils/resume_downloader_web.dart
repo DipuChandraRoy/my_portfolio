@@ -3,7 +3,7 @@
 import 'dart:html' as html;
 
 void triggerWebDownload(String assetPath, String fileName) {
-  final anchor = html.AnchorElement(href: assetPath)
+  html.AnchorElement(href: assetPath)
     ..setAttribute('download', fileName)
     ..click();
 }
