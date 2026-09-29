@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../constants/app_colors.dart';
 import '../widgets/section_title.dart';
 
@@ -241,7 +242,71 @@ class _SocialButtonState extends State<_SocialButton> {
 
 // ─── Contact Form ────────────────────────────────────────────────────────────
 
-class _ContactForm extends StatelessWidget {
+class _ContactForm extends StatefulWidget {
+  @override
+  State<_ContactForm> createState() => _ContactFormState();
+}
+
+class _ContactFormState extends State<_ContactForm> {
+  final _nameCtrl    = TextEditingController();
+  final _emailCtrl   = TextEditingController();
+  final _subjectCtrl = TextEditingController();
+  final _messageCtrl = TextEditingController();
+  bool _sending = false;
+
+  @override
+  void dispose() {
+    _nameCtrl.dispose();
+    _emailCtrl.dispose();
+    _subjectCtrl.dispose();
+    _messageCtrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _sendToWhatsApp() async {
+    final name    = _nameCtrl.text.trim();
+    final email   = _emailCtrl.text.trim();
+    final subject = _subjectCtrl.text.trim();
+    final message = _messageCtrl.text.trim();
+
+    if (name.isEmpty || message.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Please enter your name and message.'),
+          backgroundColor: AppColors.accent,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+      );
+      return;
+    }
+
+    setState(() => _sending = true);
+    try {
+      final parts = [
+        'Hello Dipu! 👋',
+        'Name: $name',
+        if (email.isNotEmpty) 'Email: $email',
+        if (subject.isNotEmpty) 'Subject: $subject',
+        '',
+        'Message:',
+        message,
+      ];
+      final uri = Uri.parse(
+        'https://wa.me/8801753827779?text=${Uri.encodeComponent(parts.join('\n'))}',
+      );
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+        _nameCtrl.clear();
+        _emailCtrl.clear();
+        _subjectCtrl.clear();
+        _messageCtrl.clear();
+      }
+    } finally {
+      if (mounted) setState(() => _sending = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -262,6 +327,20 @@ class _ContactForm extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
+          const SizedBox(height: 6),
+          Row(
+            children: [
+              const Icon(Icons.whatsapp, color: Color(0xFF25D366), size: 15),
+              const SizedBox(width: 6),
+              Text(
+                'Opens WhatsApp with your message pre-filled',
+                style: TextStyle(
+                  color: AppColors.grey.withValues(alpha: 0.55),
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
           const SizedBox(height: 24),
 
           // ── Name & Email Row ──
@@ -270,17 +349,17 @@ class _ContactForm extends StatelessWidget {
               if (constraints.maxWidth >= 450) {
                 return Row(
                   children: [
-                    Expanded(child: _buildTextField('Your Name', Icons.person_outline)),
+                    Expanded(child: _buildField('Your Name', Icons.person_outline, _nameCtrl)),
                     const SizedBox(width: 16),
-                    Expanded(child: _buildTextField('Your Email', Icons.email_outlined)),
+                    Expanded(child: _buildField('Your Email', Icons.email_outlined, _emailCtrl)),
                   ],
                 );
               } else {
                 return Column(
                   children: [
-                    _buildTextField('Your Name', Icons.person_outline),
+                    _buildField('Your Name', Icons.person_outline, _nameCtrl),
                     const SizedBox(height: 16),
-                    _buildTextField('Your Email', Icons.email_outlined),
+                    _buildField('Your Email', Icons.email_outlined, _emailCtrl),
                   ],
                 );
               }
@@ -288,22 +367,21 @@ class _ContactForm extends StatelessWidget {
           ),
           const SizedBox(height: 16),
 
-          // ── Subject ──
-          _buildTextField('Subject', Icons.subject_rounded),
+          _buildField('Subject', Icons.subject_rounded, _subjectCtrl),
           const SizedBox(height: 16),
 
-          // ── Message ──
-          _buildTextField('Your Message', Icons.message_outlined, maxLines: 5),
+          _buildField('Your Message', Icons.message_outlined, _messageCtrl, maxLines: 5),
           const SizedBox(height: 24),
 
           // ── Send Button ──
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: _sending ? null : _sendToWhatsApp,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.accent,
                 foregroundColor: Colors.black,
+                disabledBackgroundColor: AppColors.accent.withValues(alpha: 0.5),
                 padding: const EdgeInsets.symmetric(vertical: 18),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -311,21 +389,30 @@ class _ContactForm extends StatelessWidget {
                 elevation: 4,
                 shadowColor: AppColors.accent.withValues(alpha: 0.4),
               ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.send_rounded, size: 18),
-                  SizedBox(width: 10),
-                  Text(
-                    'Send Message',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      letterSpacing: 0.5,
+              child: _sending
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.black,
+                      ),
+                    )
+                  : const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.whatsapp, size: 18),
+                        SizedBox(width: 10),
+                        Text(
+                          'Send via WhatsApp',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
             ),
           ),
         ],
@@ -333,8 +420,10 @@ class _ContactForm extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField(String hint, IconData icon, {int maxLines = 1}) {
+  Widget _buildField(String hint, IconData icon, TextEditingController ctrl,
+      {int maxLines = 1}) {
     return TextField(
+      controller: ctrl,
       maxLines: maxLines,
       style: const TextStyle(color: AppColors.white, fontSize: 14),
       decoration: InputDecoration(
@@ -368,6 +457,7 @@ class _ContactForm extends StatelessWidget {
     );
   }
 }
+
 
 // ─── Footer ──────────────────────────────────────────────────────────────────
 
