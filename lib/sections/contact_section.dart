@@ -248,8 +248,8 @@ class _ContactForm extends StatefulWidget {
 }
 
 class _ContactFormState extends State<_ContactForm> {
-  final _nameCtrl    = TextEditingController();
-  final _emailCtrl   = TextEditingController();
+  final _nameCtrl = TextEditingController();
+  final _emailCtrl = TextEditingController();
   final _subjectCtrl = TextEditingController();
   final _messageCtrl = TextEditingController();
   bool _sending = false;
@@ -264,8 +264,8 @@ class _ContactFormState extends State<_ContactForm> {
   }
 
   Future<void> _sendToWhatsApp() async {
-    final name    = _nameCtrl.text.trim();
-    final email   = _emailCtrl.text.trim();
+    final name = _nameCtrl.text.trim();
+    final email = _emailCtrl.text.trim();
     final subject = _subjectCtrl.text.trim();
     final message = _messageCtrl.text.trim();
 
@@ -275,7 +275,9 @@ class _ContactFormState extends State<_ContactForm> {
           content: const Text('Please enter your name and message.'),
           backgroundColor: AppColors.accent,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       );
       return;
@@ -330,7 +332,11 @@ class _ContactFormState extends State<_ContactForm> {
           const SizedBox(height: 6),
           Row(
             children: [
-              const Icon(Icons.whatsapp, color: Color(0xFF25D366), size: 15),
+              const Icon(
+                Icons.message_sharp,
+                color: Color(0xFF25D366),
+                size: 15,
+              ),
               const SizedBox(width: 6),
               Text(
                 'Opens WhatsApp with your message pre-filled',
@@ -349,9 +355,21 @@ class _ContactFormState extends State<_ContactForm> {
               if (constraints.maxWidth >= 450) {
                 return Row(
                   children: [
-                    Expanded(child: _buildField('Your Name', Icons.person_outline, _nameCtrl)),
+                    Expanded(
+                      child: _buildField(
+                        'Your Name',
+                        Icons.person_outline,
+                        _nameCtrl,
+                      ),
+                    ),
                     const SizedBox(width: 16),
-                    Expanded(child: _buildField('Your Email', Icons.email_outlined, _emailCtrl)),
+                    Expanded(
+                      child: _buildField(
+                        'Your Email',
+                        Icons.email_outlined,
+                        _emailCtrl,
+                      ),
+                    ),
                   ],
                 );
               } else {
@@ -370,7 +388,12 @@ class _ContactFormState extends State<_ContactForm> {
           _buildField('Subject', Icons.subject_rounded, _subjectCtrl),
           const SizedBox(height: 16),
 
-          _buildField('Your Message', Icons.message_outlined, _messageCtrl, maxLines: 5),
+          _buildField(
+            'Your Message',
+            Icons.message_outlined,
+            _messageCtrl,
+            maxLines: 5,
+          ),
           const SizedBox(height: 24),
 
           // ── Send Button ──
@@ -381,7 +404,9 @@ class _ContactFormState extends State<_ContactForm> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.accent,
                 foregroundColor: Colors.black,
-                disabledBackgroundColor: AppColors.accent.withValues(alpha: 0.5),
+                disabledBackgroundColor: AppColors.accent.withValues(
+                  alpha: 0.5,
+                ),
                 padding: const EdgeInsets.symmetric(vertical: 18),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -401,7 +426,7 @@ class _ContactFormState extends State<_ContactForm> {
                   : const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.whatsapp, size: 18),
+                        Icon(Icons.message_sharp, size: 18),
                         SizedBox(width: 10),
                         Text(
                           'Send via WhatsApp',
@@ -420,8 +445,12 @@ class _ContactFormState extends State<_ContactForm> {
     );
   }
 
-  Widget _buildField(String hint, IconData icon, TextEditingController ctrl,
-      {int maxLines = 1}) {
+  Widget _buildField(
+    String hint,
+    IconData icon,
+    TextEditingController ctrl, {
+    int maxLines = 1,
+  }) {
     return TextField(
       controller: ctrl,
       maxLines: maxLines,
@@ -433,7 +462,11 @@ class _ContactFormState extends State<_ContactForm> {
           fontSize: 14,
         ),
         prefixIcon: maxLines == 1
-            ? Icon(icon, color: AppColors.accent.withValues(alpha: 0.6), size: 20)
+            ? Icon(
+                icon,
+                color: AppColors.accent.withValues(alpha: 0.6),
+                size: 20,
+              )
             : null,
         filled: true,
         fillColor: AppColors.background,
@@ -458,7 +491,6 @@ class _ContactFormState extends State<_ContactForm> {
   }
 }
 
-
 // ─── Footer ──────────────────────────────────────────────────────────────────
 
 class _Footer extends StatelessWidget {
@@ -468,12 +500,7 @@ class _Footer extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 24),
       decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: AppColors.divider,
-            width: 1,
-          ),
-        ),
+        border: Border(top: BorderSide(color: AppColors.divider, width: 1)),
       ),
       child: Column(
         children: [
