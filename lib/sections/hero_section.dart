@@ -5,6 +5,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 import '../constants/app_colors.dart';
 import '../utils/resume_downloader.dart';
+import '../widgets/fade_slide_in.dart';
+import '../widgets/animated_typing_text.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Hero Section – Responsive Row / Column via LayoutBuilder
@@ -65,103 +67,124 @@ class _HeroTextContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         // ── Greeting chip ──
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          decoration: BoxDecoration(
-            color: AppColors.accent.withValues(alpha: 0.08),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.accent.withValues(alpha: 0.25)),
-          ),
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('👋', style: TextStyle(fontSize: 16)),
-              SizedBox(width: 8),
-              Text(
-                'Hi, I am',
-                style: TextStyle(
-                  color: AppColors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: 0.5,
+        FadeSlideIn(
+          delay: const Duration(milliseconds: 0),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: AppColors.accent.withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: AppColors.accent.withValues(alpha: 0.25)),
+            ),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('👋', style: TextStyle(fontSize: 16)),
+                SizedBox(width: 8),
+                Text(
+                  'Hi, I am',
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: 0.5,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 20),
 
         // ── Name ──
-        Text(
-          'Dipu Chandra Ray',
-          textAlign: isWide ? TextAlign.left : TextAlign.center,
-          style: TextStyle(
-            color: AppColors.accent,
-            fontSize: isWide ? 46 : 36,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.2,
-            height: 1.1,
+        FadeSlideIn(
+          delay: const Duration(milliseconds: 150),
+          child: Text(
+            'Dipu Chandra Ray',
+            textAlign: isWide ? TextAlign.left : TextAlign.center,
+            style: TextStyle(
+              color: AppColors.accent,
+              fontSize: isWide ? 46 : 36,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.2,
+              height: 1.1,
+            ),
           ),
         ),
         const SizedBox(height: 10),
 
-        // ── Designation ──
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: isWide
-              ? MainAxisAlignment.start
-              : MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 28,
-              height: 3,
-              decoration: BoxDecoration(
-                color: AppColors.accent,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Flexible(
-              child: Text(
-                'Flutter Developer (Android & iOS) @ DeepVers Lab',
-                style: TextStyle(
-                  color: AppColors.accent.withValues(alpha: 0.85),
-                  fontSize: isWide ? 20 : 15,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.6,
+        // ── Animated Typing Designation ──
+        FadeSlideIn(
+          delay: const Duration(milliseconds: 300),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: isWide
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 28,
+                height: 3,
+                decoration: BoxDecoration(
+                  color: AppColors.accent,
+                  borderRadius: BorderRadius.circular(2),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(width: 12),
+              Flexible(
+                child: AnimatedTypingText(
+                  texts: const [
+                    'Flutter Developer @ DeepVers Lab',
+                    'Android & iOS Developer',
+                    'UI/UX Designer',
+                    'Firebase & REST API Expert',
+                    'TensorFlow Lite Developer',
+                  ],
+                  style: TextStyle(
+                    color: AppColors.accent.withValues(alpha: 0.9),
+                    fontSize: isWide ? 20 : 15,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.6,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 24),
 
         // ── Description ──
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 520),
-          child: Text(
-            'Flutter Developer (Android & iOS) at DeepVers Lab — a software company. '
-            'B.Sc. in CSE | Expert in Flutter, RESTful APIs, Firebase & TensorFlow Lite. '
-            'Building seamless cross-platform mobile experiences.',
-            textAlign: isWide ? TextAlign.left : TextAlign.center,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: AppColors.grey,
-              fontSize: 15,
-              height: 1.7,
-              letterSpacing: 0.3,
+        FadeSlideIn(
+          delay: const Duration(milliseconds: 450),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 520),
+            child: Text(
+              'Flutter Developer (Android & iOS) at DeepVers Lab — a software company. '
+              'B.Sc. in CSE | Expert in Flutter, RESTful APIs, Firebase & TensorFlow Lite. '
+              'Building seamless cross-platform mobile experiences.',
+              textAlign: isWide ? TextAlign.left : TextAlign.center,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: AppColors.grey,
+                fontSize: 15,
+                height: 1.7,
+                letterSpacing: 0.3,
+              ),
             ),
           ),
         ),
         const SizedBox(height: 36),
 
         // ── Action Buttons ──
-        Wrap(
-          spacing: 16,
-          runSpacing: 12,
-          alignment: isWide ? WrapAlignment.start : WrapAlignment.center,
-          children: [_HireMeButton(), _DownloadResumeButton()],
+        FadeSlideIn(
+          delay: const Duration(milliseconds: 600),
+          child: Wrap(
+            spacing: 16,
+            runSpacing: 12,
+            alignment: isWide ? WrapAlignment.start : WrapAlignment.center,
+            children: [_HireMeButton(), _DownloadResumeButton()],
+          ),
         ),
       ],
     );
