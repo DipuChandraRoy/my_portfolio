@@ -225,6 +225,7 @@ class _ContactCardState extends State<_ContactCard> {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       widget.title,
@@ -459,6 +460,7 @@ class _ContactFormState extends State<_ContactForm> {
             builder: (context, constraints) {
               if (constraints.maxWidth >= 450) {
                 return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       child: _buildField(
@@ -573,11 +575,12 @@ class _ContactFormState extends State<_ContactForm> {
                 size: 20,
               )
             : null,
+        isDense: true,
         filled: true,
         fillColor: AppColors.background,
         contentPadding: EdgeInsets.symmetric(
           horizontal: 16,
-          vertical: maxLines > 1 ? 16 : 0,
+          vertical: maxLines > 1 ? 16 : 14,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

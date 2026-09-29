@@ -92,7 +92,7 @@ class ServicesSection extends StatelessWidget {
                       crossAxisCount: crossAxisCount,
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20,
-                      childAspectRatio: isWide ? 1.0 : 1.2,
+                      mainAxisExtent: isWide ? 310 : 280,
                     ),
                     itemCount: _services.length,
                     itemBuilder: (context, index) {
@@ -210,7 +210,7 @@ class _ServiceCardState extends State<_ServiceCard> {
                 style: TextStyle(
                   color: AppColors.grey.withValues(alpha: 0.7),
                   fontSize: 13,
-                  height: 1.6,
+                  height: 1.5,
                 ),
               ),
             ),

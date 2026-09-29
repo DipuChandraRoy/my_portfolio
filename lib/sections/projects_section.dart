@@ -74,7 +74,7 @@ class ProjectsSection extends StatelessWidget {
                       crossAxisCount: crossAxisCount,
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20,
-                      mainAxisExtent: 310,
+                      mainAxisExtent: 340,
                     ),
                     itemCount: _projects.length,
                     itemBuilder: (context, index) {
@@ -193,7 +193,7 @@ class _ProjectCardState extends State<_ProjectCard> {
                 style: TextStyle(
                   color: AppColors.grey.withValues(alpha: 0.7),
                   fontSize: 13,
-                  height: 1.6,
+                  height: 1.5,
                 ),
               ),
             ),
