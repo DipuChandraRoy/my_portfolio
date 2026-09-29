@@ -132,6 +132,14 @@ class _ContactInfo extends StatelessWidget {
               tooltip: 'github.com/DipuChandraRoy',
               onTap: () => _launch('https://github.com/DipuChandraRoy'),
             ),
+            _SocialButton(
+              icon: Icons.link_rounded,
+              label: 'LinkedIn',
+              tooltip: 'linkedin.com/in/dipu-chandra-roy',
+              onTap: () => _launch(
+                'https://www.linkedin.com/in/dipu-chandra-roy',
+              ),
+            ),
           ],
         ),
       ],
