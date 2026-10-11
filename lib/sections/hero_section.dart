@@ -276,30 +276,76 @@ class _DownloadResumeButtonState extends State<_DownloadResumeButton> {
   Future<void> _downloadResume() async {
     setState(() => _loading = true);
     try {
-      const assetPath = 'assets/files/dipu_resume.pdf';
+      const assetPath = 'assets/files/Dipu.pdf';
       const fileName = 'Dipu_Chandra_Ray_Resume.pdf';
 
+      final byteData = await rootBundle.load(assetPath);
+      final bytes = byteData.buffer.asUint8List();
+
       if (kIsWeb) {
-        // Flutter Web: triggers a real browser file download
-        triggerWebDownload(assetPath, fileName);
+        // Flutter Web: triggers a real browser file download via Blob URL
+        triggerWebDownload(bytes, fileName);
       } else {
         // Desktop / Mobile:
-        // 1. Read PDF bytes from the Flutter asset bundle
-        // 2. Write to system temp directory
-        // 3. Open with system PDF viewer via url_launcher
-        final byteData = await rootBundle.load(assetPath);
-        final tempDir = Directory.systemTemp;
-        final tempFile = File('${tempDir.path}/$fileName');
-        await tempFile.writeAsBytes(byteData.buffer.asUint8List(), flush: true);
-        final uri = Uri.file(tempFile.path);
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
+        // Try saving to user's Downloads directory first, or fallback to system temp
+        File? targetFile;
+        try {
+          final home =
+              Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
+          if (home != null) {
+            final downloadsDir = Directory('$home/Downloads');
+            if (downloadsDir.existsSync()) {
+              targetFile = File('${downloadsDir.path}/$fileName');
+            }
+          }
+        } catch (_) {}
+
+        targetFile ??= File('${Directory.systemTemp.path}/$fileName');
+        await targetFile.writeAsBytes(bytes, flush: true);
+
+        final uri = Uri.file(targetFile.path);
+        try {
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri);
+          } else if (Platform.isMacOS) {
+            await Process.run('open', [targetFile.path]);
+          } else if (Platform.isWindows) {
+            await Process.run('start', ['', targetFile.path], runInShell: true);
+          } else if (Platform.isLinux) {
+            await Process.run('xdg-open', [targetFile.path]);
+          }
+        } catch (_) {
+          if (Platform.isMacOS) {
+            await Process.run('open', [targetFile.path]);
+          }
         }
+      }
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Resume download started!'),
+            backgroundColor: AppColors.accent,
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 3),
+          ),
+        );
       }
     } catch (e) {
       debugPrint('Resume download error: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to download resume: $e'),
+            backgroundColor: Colors.redAccent,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     } finally {
-      setState(() => _loading = false);
+      if (mounted) {
+        setState(() => _loading = false);
+      }
     }
   }
 
