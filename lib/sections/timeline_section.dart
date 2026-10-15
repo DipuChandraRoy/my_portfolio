@@ -24,11 +24,10 @@ class TimelineSection extends StatelessWidget {
     _TimelineData(
       title: 'Flutter Developer',
       org: 'N. I. Biz Soft',
-      period: 'Mar 2026 – Jun 2026',
+      period: 'Jan 2025 – Jun 2026 (1 Year 6 Months)',
       description:
-          'Developed and maintained responsive cross-platform apps. '
-          'Translated design wireframes into high-performance widget trees. '
-          'Integrated RESTful APIs and Firebase.',
+          'Developed and maintained responsive cross-platform mobile apps for Android and iOS using Flutter & Dart. '
+          'Integrated RESTful APIs, translated complex design wireframes into high-performance widget trees, and optimized state management.',
       icon: Icons.work_outline_rounded,
       isCurrent: false,
     ),
