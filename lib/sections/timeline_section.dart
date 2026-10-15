@@ -37,11 +37,11 @@ class TimelineSection extends StatelessWidget {
   static const _education = [
     _TimelineData(
       title: 'B.Sc. in Computer Science & Engineering',
-      org: 'Daffodil International University (DIU)',
-      period: '2019 – 2023',
+      org: 'Dhaka International University (DIU)',
+      period: '2020 – 2024',
       description:
-          'Graduated with a focus on software engineering, algorithms, '
-          'data structures and mobile application development.',
+          'Graduated with CGPA 3.29 / 4.00, focusing on software engineering, '
+          'algorithms, data structures and mobile application development.',
       icon: Icons.school_rounded,
       isCurrent: false,
     ),
