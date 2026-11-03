@@ -65,9 +65,8 @@ class _HeroTextContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: isWide
-          ? CrossAxisAlignment.start
-          : CrossAxisAlignment.center,
+      crossAxisAlignment:
+          isWide ? CrossAxisAlignment.start : CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
         // ── Greeting chip ──
@@ -78,7 +77,8 @@ class _HeroTextContent extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.accent.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: AppColors.accent.withValues(alpha: 0.25)),
+              border:
+                  Border.all(color: AppColors.accent.withValues(alpha: 0.25)),
             ),
             child: const Row(
               mainAxisSize: MainAxisSize.min,
@@ -124,9 +124,8 @@ class _HeroTextContent extends StatelessWidget {
           delay: const Duration(milliseconds: 300),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: isWide
-                ? MainAxisAlignment.start
-                : MainAxisAlignment.center,
+            mainAxisAlignment:
+                isWide ? MainAxisAlignment.start : MainAxisAlignment.center,
             children: [
               Container(
                 width: 28,
@@ -140,11 +139,12 @@ class _HeroTextContent extends StatelessWidget {
               Flexible(
                 child: AnimatedTypingText(
                   texts: const [
-                    'Flutter Developer @ DeepVers Lab',
+                    'Flutter Developer',
+                    'Mobile Application Developer',
                     'Android & iOS Developer',
-                    'UI/UX Designer',
-                    'Firebase & REST API Expert',
-                    'TensorFlow Lite Developer',
+                    'Real-Time & Live Streaming Apps',
+                    'Riverpod & State Management',
+                    'UI/UX & Clean Architecture',
                   ],
                   style: TextStyle(
                     color: AppColors.accent.withValues(alpha: 0.9),
@@ -165,9 +165,9 @@ class _HeroTextContent extends StatelessWidget {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 520),
             child: Text(
-              'Flutter Developer (Android & iOS) at DeepVers Lab — a software company. '
-              'B.Sc. in CSE | Expert in Flutter, RESTful APIs, Firebase & TensorFlow Lite. '
-              'Building seamless cross-platform mobile experiences.',
+              'Intermediate Flutter Developer with a B.Sc. in CSE. '
+              'Skilled in building responsive cross-platform mobile applications with '
+              'Flutter, REST APIs, real-time features (LiveKit & WebSocket), and clean architecture.',
               textAlign: isWide ? TextAlign.left : TextAlign.center,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
@@ -210,7 +210,8 @@ class _HireMeButtonState extends State<_HireMeButton> {
   Future<void> _openWhatsApp() async {
     // wa.me deep link — works on web, Android, iOS & macOS WhatsApp
     const phone = '8801753827779'; // country code without +
-    const message = 'Hello Dipu! I visited your portfolio and would like to hire you.';
+    const message =
+        'Hello Dipu! I visited your portfolio and would like to hire you.';
     final uri = Uri.parse(
       'https://wa.me/$phone?text=${Uri.encodeComponent(message)}',
     );
@@ -276,10 +277,11 @@ class _DownloadResumeButtonState extends State<_DownloadResumeButton> {
   Future<void> _downloadResume() async {
     setState(() => _loading = true);
     try {
-      const assetPath = 'assets/files/Dipu.pdf';
       const fileName = 'Dipu_Chandra_Ray_Resume.pdf';
 
-      final byteData = await rootBundle.load(assetPath);
+      final byteData = await rootBundle
+          .load('assets/files/Dipu_Chandra_Ray_Resume.pdf')
+          .catchError((_) => rootBundle.load('assets/files/Dipu.pdf'));
       final bytes = byteData.buffer.asUint8List();
 
       if (kIsWeb) {
@@ -290,8 +292,8 @@ class _DownloadResumeButtonState extends State<_DownloadResumeButton> {
         // Try saving to user's Downloads directory first, or fallback to system temp
         File? targetFile;
         try {
-          final home =
-              Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
+          final home = Platform.environment['HOME'] ??
+              Platform.environment['USERPROFILE'];
           if (home != null) {
             final downloadsDir = Directory('$home/Downloads');
             if (downloadsDir.existsSync()) {
@@ -450,9 +452,8 @@ class _HeroProfileImageState extends State<_HeroProfileImage>
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
-    final double imageSize = widget.isWide
-        ? 280
-        : (screenWidth < 400 ? 180 : 220);
+    final double imageSize =
+        widget.isWide ? 280 : (screenWidth < 400 ? 180 : 220);
 
     return Center(
       child: AnimatedBuilder(

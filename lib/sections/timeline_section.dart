@@ -12,23 +12,36 @@ class TimelineSection extends StatelessWidget {
 
   static const _experience = [
     _TimelineData(
-      title: 'Flutter Developer (Android & iOS)',
-      org: 'DeepVers Lab',
-      period: 'Present',
-      description:
-          'Building cross-platform mobile applications for Android & iOS '
-          'using Flutter & Dart. Integrating REST APIs and Firebase backend services.',
-      icon: Icons.work_rounded,
-      isCurrent: true,
-    ),
-    _TimelineData(
       title: 'Flutter Developer',
       org: 'N. I. Biz Soft',
-      period: 'Jan 2025 – Jun 2026 (1 Year 6 Months)',
+      period: 'Mar 2025 – Jun 2026',
       description:
-          'Developed and maintained responsive cross-platform mobile apps for Android and iOS using Flutter & Dart. '
-          'Integrated RESTful APIs, translated complex design wireframes into high-performance widget trees, and optimized state management.',
+          '• Developed and maintained responsive Android and iOS applications using Flutter and Dart.\n'
+          '• Integrated REST APIs and external services, handling asynchronous data and application state.\n'
+          '• Implemented reusable UI components from design references and improved app usability and responsiveness.\n'
+          '• Debugged application issues and supported performance, stability, and maintenance.',
       icon: Icons.work_outline_rounded,
+      isCurrent: false,
+    ),
+  ];
+
+  static const _certifications = [
+    _TimelineData(
+      title: 'Mobile Application Development (Flutter)',
+      org: 'BASIS (BITM)',
+      period: '2022 · 3 Months (240 Hours)',
+      description:
+          'Intensive professional training course covering Flutter/Dart, UI/UX implementation, REST APIs, and production deployment.',
+      icon: Icons.workspace_premium_rounded,
+      isCurrent: false,
+    ),
+    _TimelineData(
+      title: 'Flutter Certified Developer',
+      org: 'Certification',
+      period: 'Verified Credential',
+      description:
+          'Recognized developer certification validating expertise in building scalable, performant cross-platform Flutter applications.',
+      icon: Icons.verified_rounded,
       isCurrent: false,
     ),
   ];
@@ -36,22 +49,11 @@ class TimelineSection extends StatelessWidget {
   static const _education = [
     _TimelineData(
       title: 'B.Sc. in Computer Science & Engineering',
-      org: 'Dhaka International University (DIU)',
+      org: 'Dhaka International University',
       period: '2020 – 2024',
       description:
-          'Graduated with CGPA 3.29 / 4.00, focusing on software engineering, '
-          'algorithms, data structures and mobile application development.',
+          'CGPA: 3.29 / 4.00 · Comprehensive studies in software engineering, algorithms, data structures, and cross-platform mobile application development.',
       icon: Icons.school_rounded,
-      isCurrent: false,
-    ),
-    _TimelineData(
-      title: 'Mobile Application Development (Flutter)',
-      org: 'BASIS (BITM)',
-      period: '2022 · 3 Months (240 Hours)',
-      description:
-          'Intensive professional training course covering Flutter/Dart, '
-          'UI/UX best practices, and deploying apps to Play Store & App Store.',
-      icon: Icons.menu_book_rounded,
       isCurrent: false,
     ),
   ];
@@ -77,7 +79,7 @@ class TimelineSection extends StatelessWidget {
                   const FadeSlideIn(
                     child: SectionTitle(
                       title: 'Experience & Education',
-                      subtitle: 'My professional journey',
+                      subtitle: 'My professional journey & qualifications',
                     ),
                   ),
                   const SizedBox(height: 50),
@@ -93,24 +95,39 @@ class TimelineSection extends StatelessWidget {
                         ),
                         const SizedBox(width: 40),
                         Expanded(
-                          child: _TimelineColumn(
-                            label: '🎓  Education',
-                            items: _education,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              _TimelineColumn(
+                                label: '🎓  Education',
+                                items: _education,
+                              ),
+                              SizedBox(height: 36),
+                              _TimelineColumn(
+                                label: '📜  Training & Certifications',
+                                items: _certifications,
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     )
                   else
                     Column(
-                      children: [
+                      children: const [
                         _TimelineColumn(
                           label: '💼  Work Experience',
                           items: _experience,
                         ),
-                        const SizedBox(height: 40),
+                        SizedBox(height: 36),
                         _TimelineColumn(
                           label: '🎓  Education',
                           items: _education,
+                        ),
+                        SizedBox(height: 36),
+                        _TimelineColumn(
+                          label: '📜  Training & Certifications',
+                          items: _certifications,
                         ),
                       ],
                     ),

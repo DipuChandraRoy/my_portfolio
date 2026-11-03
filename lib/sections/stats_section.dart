@@ -9,8 +9,8 @@ class StatsSection extends StatelessWidget {
   const StatsSection({super.key});
 
   static const _stats = [
-    _StatData(value: 3, suffix: '+', label: 'Years Experience'),
-    _StatData(value: 15, suffix: '+', label: 'Projects Completed'),
+    _StatData(value: 2, suffix: '+', label: 'Years Experience'),
+    _StatData(value: 30, suffix: '+', label: 'Projects Completed'),
     _StatData(value: 5, suffix: '+', label: 'Technologies'),
     _StatData(value: 100, suffix: '%', label: 'Client Satisfaction'),
   ];

@@ -3,7 +3,7 @@ import '../constants/app_colors.dart';
 import '../widgets/section_title.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Projects Section
+// Projects Section — 8 Featured Projects from Resume
 // ─────────────────────────────────────────────────────────────────────────────
 
 class ProjectsSection extends StatelessWidget {
@@ -11,29 +11,66 @@ class ProjectsSection extends StatelessWidget {
 
   static const List<_ProjectData> _projects = [
     _ProjectData(
-      title: 'E-Commerce Mobile Application',
+      title: 'Swish - Live Streaming',
       description:
-          'A full-featured shopping application with product browsing, cart management, '
-          'secure payment integration, and real-time order tracking built with Flutter, '
-          'REST APIs, and Provider state management.',
-      tags: ['Flutter', 'REST APIs', 'Provider'],
+          'Real-time audio and voice rooms, multi-participant video grids, live interactive chat, '
+          'virtual gifts, wallet, and diamond coin reward systems built with LiveKit and WebSocket.',
+      tags: ['Flutter', 'Riverpod', 'Dio', 'WebSocket', 'LiveKit'],
+      icon: Icons.live_tv_rounded,
+    ),
+    _ProjectData(
+      title: 'Safollo Bazar - Customer App',
+      description:
+          'Comprehensive e-commerce mobile shopping experience featuring dynamic product catalogs, '
+          'cart management, checkout, order tracking, and account dashboard modules.',
+      tags: ['Flutter', 'GetX', 'REST APIs'],
       icon: Icons.shopping_bag_rounded,
     ),
     _ProjectData(
-      title: 'Rose Leaf Disease Detection',
+      title: 'Safollo Bazar - Rider App',
       description:
-          'An intelligent plant health app that uses an on-device TensorFlow Lite model '
-          'to detect and classify rose leaf diseases from camera images in real time, '
-          'with no internet connection required.',
-      tags: ['Flutter', 'TensorFlow Lite', 'ML'],
+          'Dedicated order delivery and rider workflow application featuring live location tracking, '
+          'online/offline availability status, instant order notifications, and route management.',
+      tags: ['Flutter', 'GetX', 'REST APIs', 'Location'],
+      icon: Icons.delivery_dining_rounded,
+    ),
+    _ProjectData(
+      title: 'SportsBD - Cricket App',
+      description:
+          'Feature-rich sports application providing live ball-by-ball commentary, real-time match scores, '
+          'team schedules, player profiles, and detailed tournament statistics.',
+      tags: ['Flutter', 'Riverpod', 'REST APIs'],
+      icon: Icons.sports_cricket_rounded,
+    ),
+    _ProjectData(
+      title: 'eTicketMart / Tricket',
+      description:
+          'Online ticketing and travel booking application with API-driven bus/train schedules, '
+          'interactive seat selection, secured payment gateways, and booking confirmations.',
+      tags: ['Flutter', 'Riverpod', 'REST APIs'],
+      icon: Icons.confirmation_number_rounded,
+    ),
+    _ProjectData(
+      title: 'KheloBD - Esports Platform',
+      description:
+          'Competitive esports and gaming tournament platform featuring match registrations, '
+          'player team profiles, tournament bracket tracking, and API-connected leaderboards.',
+      tags: ['Flutter', 'GetX', 'REST APIs'],
+      icon: Icons.sports_esports_rounded,
+    ),
+    _ProjectData(
+      title: 'Rose Leaf Disease Detection App',
+      description:
+          'Intelligent agriculture application using an on-device TensorFlow Lite machine learning model '
+          'to diagnose rose leaf diseases in real-time from camera photos without internet.',
+      tags: ['Flutter', 'TensorFlow Lite', 'AI/ML'],
       icon: Icons.local_florist_rounded,
     ),
     _ProjectData(
       title: 'Personal Fitness Tracking App',
       description:
-          'A health & fitness application featuring custom widget animations, workout '
-          'logging, progress tracking, and goal setting — built entirely with Flutter '
-          'custom widgets and local data persistence.',
+          'Personal health and fitness tracking application featuring custom widget animations, '
+          'daily workout logging, calorie & step tracking, and local SQLite data persistence.',
       tags: ['Flutter', 'Custom Widgets', 'SQLite'],
       icon: Icons.fitness_center_rounded,
     ),
@@ -61,13 +98,14 @@ class ProjectsSection extends StatelessWidget {
             child: Container(
               constraints: const BoxConstraints(maxWidth: 1200),
               padding: EdgeInsets.symmetric(
-                horizontal: isWide ? 60 : (constraints.maxWidth < 500 ? 16 : 24),
+                horizontal:
+                    isWide ? 60 : (constraints.maxWidth < 500 ? 16 : 24),
               ),
               child: Column(
                 children: [
                   const SectionTitle(
                     title: 'Projects',
-                    subtitle: 'Some of my recent works',
+                    subtitle: 'Featured applications and platforms I built',
                   ),
                   const SizedBox(height: 50),
                   GridView.builder(
@@ -77,7 +115,7 @@ class ProjectsSection extends StatelessWidget {
                       crossAxisCount: crossAxisCount,
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20,
-                      mainAxisExtent: 340,
+                      mainAxisExtent: 360,
                     ),
                     itemCount: _projects.length,
                     itemBuilder: (context, index) {

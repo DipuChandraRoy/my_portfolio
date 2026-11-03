@@ -114,7 +114,7 @@ class _AboutDetails extends StatelessWidget {
       children: [
         // ── Bio ──
         const Text(
-          'Creative UI/UX Designer & Flutter Developer',
+          'Flutter Developer | Mobile Application Developer',
           style: TextStyle(
             color: AppColors.accent,
             fontSize: 22,
@@ -124,10 +124,10 @@ class _AboutDetails extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          'I am Dipu Chandra Ray, a Flutter Developer (Android & iOS) currently working at '
-          'DeepVers Lab — a software company. I build intuitive, responsive cross-platform '
-          'mobile applications using Flutter, integrate backend REST APIs and Firebase, '
-          'and deploy on-device AI/ML models using TensorFlow Lite.',
+          'Intermediate Flutter Developer with a B.Sc. in Computer Science & Engineering '
+          'and hands-on experience building cross-platform mobile applications. Skilled in Flutter '
+          'and Dart, REST API integration, real-time features, state management, and clean, '
+          'maintainable app architecture.',
           style: TextStyle(
             color: AppColors.grey.withValues(alpha: 0.8),
             fontSize: 15,
@@ -137,9 +137,8 @@ class _AboutDetails extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Text(
-          'With a B.Sc. in Computer Science & Engineering, I combine strong user-centered '
-          'design principles with clean Dart code architecture to deliver seamless, '
-          'high-performance mobile experiences across Android and iOS platforms.',
+          'Experienced in developing e-commerce, delivery, sports, gaming, and live-streaming '
+          'application modules with modern user-centered design principles and high-performance Dart code.',
           style: TextStyle(
             color: AppColors.grey.withValues(alpha: 0.8),
             fontSize: 15,
@@ -154,12 +153,14 @@ class _AboutDetails extends StatelessWidget {
           spacing: 16,
           runSpacing: 16,
           children: const [
-          _InfoChip(icon: Icons.person_outline, label: 'Dipu Chandra Ray'),
+            _InfoChip(icon: Icons.person_outline, label: 'Dipu Chandra Ray'),
             _InfoChip(icon: Icons.phone_outlined, label: '+880 1753-827779'),
             _InfoChip(icon: Icons.email_outlined, label: 'dipuray7779@gmail.com'),
             _InfoChip(icon: Icons.location_on_outlined, label: 'Uttara, Dhaka, Bangladesh'),
-            _InfoChip(icon: Icons.work_outline, label: 'DeepVers Lab'),
-            _InfoChip(icon: Icons.phone_android_rounded, label: 'Android & iOS Dev'),
+            _InfoChip(icon: Icons.work_outline, label: 'N. I. Biz Soft'),
+            _InfoChip(icon: Icons.school_outlined, label: 'B.Sc. in CSE (DIU)'),
+            _InfoChip(icon: Icons.verified_outlined, label: 'Flutter Certified Developer'),
+            _InfoChip(icon: Icons.translate_rounded, label: 'Bangla & English'),
           ],
         ),
       ],
